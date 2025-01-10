@@ -6,7 +6,8 @@
     "permissions": ["storage", "tabs", "activeTab", "scripting"],
     "host_permissions": ["*://*/*"],
     "background": {
-      "service_worker": "background.js"
+      "service_worker": "background.js",
+      "scripts": ["background.js"]
     },
     "action": {
       "default_popup": "popup.html",
@@ -22,6 +23,11 @@
         "matches": ["<all_urls>"],
         "js": ["content.js"]
       }
-    ]
+    ],
+    "browser_specific_settings": {
+    "gecko": {
+      "id": "decisiondetector@example.com"
+    }
+  }
   }
   

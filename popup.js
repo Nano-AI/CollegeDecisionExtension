@@ -1,3 +1,27 @@
+const browserAPI = typeof browser !== "undefined" ? browser : chrome;
+
+    document.addEventListener("DOMContentLoaded", () => {
+        const modeNewWindow = document.getElementById("mode-new-window");
+        const modeBottomRight = document.getElementById("mode-bottom-right");
+    
+        // Load the current setting
+        browserAPI.storage.sync.get("videoDisplayMode", (data) => {
+            const mode = data.videoDisplayMode || "bottomRight";
+            if (mode === "newWindow") {
+                modeNewWindow.checked = true;
+            } else {
+                modeBottomRight.checked = true;
+            }
+        });
+    
+        // Save the selected mode when changed
+        const saveMode = (mode) => {
+            browserAPI.storage.sync.set({ videoDisplayMode: mode });
+        };
+    
+        modeNewWindow.addEventListener("change", () => saveMode("newWindow"));
+        modeBottomRight.addEventListener("change", () => saveMode("bottomRight"));
+    });
 document.addEventListener("DOMContentLoaded", () => {
     const safelyGetElement = (id) => {
       const element = document.getElementById(id);
@@ -14,7 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
   
       if (!datalist || !listElement) return;
   
-      chrome.storage.sync.get([storageKey], (result) => {
+      browserAPI.storage.sync.get([storageKey], (result) => {
         const items = result[storageKey] || [];
         items.forEach((item) => {
           // Add item to datalist for autocomplete
@@ -42,11 +66,11 @@ document.addEventListener("DOMContentLoaded", () => {
   
       const value = input.value.trim();
       if (value) {
-        chrome.storage.sync.get([storageKey], (result) => {
+        browserAPI.storage.sync.get([storageKey], (result) => {
           const items = result[storageKey] || [];
           if (!items.includes(value)) {
             items.push(value);
-            chrome.storage.sync.set({ [storageKey]: items }, () => {
+            browserAPI.storage.sync.set({ [storageKey]: items }, () => {
               // Add item to datalist
               const option = document.createElement("option");
               option.value = value;
@@ -67,10 +91,10 @@ document.addEventListener("DOMContentLoaded", () => {
   
     // Function to remove an item
     const removeItem = (value, storageKey, listItem, datalistOption) => {
-      chrome.storage.sync.get([storageKey], (result) => {
+      browserAPI.storage.sync.get([storageKey], (result) => {
         let items = result[storageKey] || [];
         items = items.filter((item) => item !== value);
-        chrome.storage.sync.set({ [storageKey]: items }, () => {
+        browserAPI.storage.sync.set({ [storageKey]: items }, () => {
           if (listItem) listItem.remove();
           if (datalistOption) datalistOption.remove();
         });
@@ -109,27 +133,5 @@ document.addEventListener("DOMContentLoaded", () => {
       addItem("deferral-keyword", "deferral-keywords-list", "deferral-keyword-list", "deferralKeywords")
     );
 
-    document.addEventListener("DOMContentLoaded", () => {
-        const modeNewWindow = document.getElementById("mode-new-window");
-        const modeBottomRight = document.getElementById("mode-bottom-right");
-    
-        // Load the current setting
-        chrome.storage.sync.get("videoDisplayMode", (data) => {
-            const mode = data.videoDisplayMode || "bottomRight";
-            if (mode === "newWindow") {
-                modeNewWindow.checked = true;
-            } else {
-                modeBottomRight.checked = true;
-            }
-        });
-    
-        // Save the selected mode when changed
-        const saveMode = (mode) => {
-            chrome.storage.sync.set({ videoDisplayMode: mode });
-        };
-    
-        modeNewWindow.addEventListener("change", () => saveMode("newWindow"));
-        modeBottomRight.addEventListener("change", () => saveMode("bottomRight"));
-    });
   });
   

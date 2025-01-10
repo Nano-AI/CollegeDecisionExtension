@@ -1,4 +1,5 @@
 // Content script to detect decision letters and take action
+const browserAPI = typeof browser !== "undefined" ? browser : chrome;
 const convertToEmbedLink = (url) => {
     try {
         const urlObj = new URL(url);
@@ -87,9 +88,20 @@ const playYouTubeEmbed = (src, new_tab) => {
     // document.body.innerHTML = '';
     document.body.appendChild(overlay);
 };
+const getStorageData = (keys, callback) => {
+    browserAPI.storage.sync.get(keys, (data) => {
+        if (browser.runtime.lastError) {
+            console.error("Error accessing storage:", browser.runtime.lastError);
+            callback({});
+        } else {
+            callback(data || {});
+        }
+    });
+};
 
-chrome.storage.sync.get(
+getStorageData(
     [
+        "videoDisplayMode",
       "positiveVideos",
       "deferredVideos",
       "negativeVideos",
@@ -100,6 +112,7 @@ chrome.storage.sync.get(
     ],
     (data) => {
       const {
+        videoDisplayMode = "",
         positiveVideos = [],
         deferredVideos = [],
         negativeVideos = [],
@@ -147,9 +160,12 @@ chrome.storage.sync.get(
         }
 
         console.log(videoURL);
-        const mode = data.videoDisplayMode || "newWindow";
-        console.log("THIS IS THE MODE " + mode)
-        playYouTubeEmbed(videoURL, mode == "newWindow");
+        const mode = videoDisplayMode;
+        console.log(mode)
+        if (mode) {
+            console.log("THIS IS THE MODE " + mode)
+            playYouTubeEmbed(videoURL, mode == "newWindow");
+        }
       } else {
         console.log("No decision-related content detected on this page.");
       }

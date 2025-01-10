@@ -1,11 +1,12 @@
-chrome.runtime.onInstalled.addListener(() => {
-    chrome.storage.sync.set({
-    mode: "newWindow",
+const browserAPI = typeof browser !== "undefined" ? browser : chrome;
+
+browserAPI.runtime.onInstalled.addListener(() => {
+    browserAPI.storage.sync.set({
+        videoDisplayMode: "newWindow",
       acceptanceKeywords: [
         "we are glad to",
         "pleased to inform",
         "congratulations",
-        "admitted",
         "offer you admission",
         "you have been accepted",
         "welcome to our university",
