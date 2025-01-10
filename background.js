@@ -1,5 +1,6 @@
 chrome.runtime.onInstalled.addListener(() => {
     chrome.storage.sync.set({
+    mode: "newWindow",
       acceptanceKeywords: [
         "we are glad to",
         "pleased to inform",
@@ -17,7 +18,9 @@ chrome.runtime.onInstalled.addListener(() => {
         "denied",
         "not admitted",
         "we cannot offer you admission",
-        "we are unable to admit"
+        "we are unable to admit",
+        "sorry to inform",
+        "cannot offer"
       ],
       deferralKeywords: [
         "defer",
@@ -38,7 +41,7 @@ chrome.runtime.onInstalled.addListener(() => {
         "https://www.youtube.com/embed/8ENfwSADlC0?autoplay=1&muted=1&controls=0&start=3"
       ],
       negativeVideos: [
-        "https://www.youtube.com/embed/M0pQkacbrko?autoplay=1&muted=1&controls=0&start=45",
+        "https://youtu.be/M0pQkacbrko?si=pPKlx3-emcK1ospK",
         "https://youtu.be/ULcaooF8Mc8?si=TyDunznKkOLo14Sx",
         "https://youtu.be/EMnQwBTJnMM?si=gRtpW5Gm6kaDDS6J&t=364",
         "https://youtu.be/Dlz_XHeUUis?si=tJLbUeWMp0reyNuI",
@@ -61,7 +64,8 @@ chrome.runtime.onInstalled.addListener(() => {
         "https://admit.vt.edu/portal/status?tab=app",
         "https://ugrdslate.scu.edu/apply/status",
         "https://sdb.admin.uw.edu/admissions/uwnetid/appstatus.asp",
-        "https://application.gatech.edu/apply/status"
+        "https://application.gatech.edu/apply/status",
+        "https://ivyhub-simulators.andressevilla.com/"
       ]
     });
     console.log("Default settings have been loaded.");

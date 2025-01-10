@@ -131,7 +131,7 @@ chrome.storage.sync.get(
       }
   
       // If it's a decision letter or a known college portal, block the page and show the video
-      if (isCollegePortal || decisionType) {
+      if (isCollegePortal && decisionType) {
         console.log("Decision detected:", decisionType || "College portal");
   
         const getRandomVideo = (videos) => videos[Math.floor(Math.random() * videos.length)];
@@ -147,7 +147,9 @@ chrome.storage.sync.get(
         }
 
         console.log(videoURL);
-        playYouTubeEmbed(videoURL, true);
+        const mode = data.videoDisplayMode || "newWindow";
+        console.log("THIS IS THE MODE " + mode)
+        playYouTubeEmbed(videoURL, mode == "newWindow");
       } else {
         console.log("No decision-related content detected on this page.");
       }

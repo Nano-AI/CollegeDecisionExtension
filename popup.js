@@ -108,5 +108,28 @@ document.addEventListener("DOMContentLoaded", () => {
     safelyGetElement("add-deferral-keyword")?.addEventListener("click", () =>
       addItem("deferral-keyword", "deferral-keywords-list", "deferral-keyword-list", "deferralKeywords")
     );
+
+    document.addEventListener("DOMContentLoaded", () => {
+        const modeNewWindow = document.getElementById("mode-new-window");
+        const modeBottomRight = document.getElementById("mode-bottom-right");
+    
+        // Load the current setting
+        chrome.storage.sync.get("videoDisplayMode", (data) => {
+            const mode = data.videoDisplayMode || "bottomRight";
+            if (mode === "newWindow") {
+                modeNewWindow.checked = true;
+            } else {
+                modeBottomRight.checked = true;
+            }
+        });
+    
+        // Save the selected mode when changed
+        const saveMode = (mode) => {
+            chrome.storage.sync.set({ videoDisplayMode: mode });
+        };
+    
+        modeNewWindow.addEventListener("change", () => saveMode("newWindow"));
+        modeBottomRight.addEventListener("change", () => saveMode("bottomRight"));
+    });
   });
   
