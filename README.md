@@ -27,4 +27,4 @@ Clicking on the extension will open several options.
 - Rejection Keywords: Keywords to indicate a rejection letter.
 - Deferral Keywords: Keywords to indicate a defer.
 
-To test, you can use the [rejection simulator](https://ivyhub.org/rejection-simulators/). Just make sure your simulated college portal is on the
+To test, you can use the [rejection simulator](https://ivyhub.org/rejection-simulators/). Just make sure your simulated college portal is on the College Portals.
